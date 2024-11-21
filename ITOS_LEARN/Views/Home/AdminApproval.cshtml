@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ITOS_LEARN.Models.User>
+
+@{
+    ViewData["Title"] = "Admin Approval";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Current Role</th>
+            <th>New Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Username</td>
+                <td>@user.Email</td>
+                <td>@user.Role</td>
+                <td>
+                    <form method="post" asp-controller="Admin" asp-action="ConfirmAndChangeRole">
+                        <input type="hidden" name="userId" value="@user.User_ID" />
+                        <div class="d-flex">
+                            <select name="newRole" class="form-control" style="width: 80px; margin-right: 10px;">
+                                <option value="Admin">Admin</option>
+                                <option value="Creater">Creater</option>
+                                <option value="Editor">Editor</option>
+                                <option value="User">User</option>
+                            </select>
+                            <button type="submit" class="btn custom-btn">Confirm</button>
+                            <style>
+                                .custom-btn {
+                                    background-color: #28a746; /* เขียว */
+                                    color: white; /* ตัวอักษรขาว */
+                                }
+                            </style>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
